@@ -19,4 +19,6 @@
 
     <bean class="com.classpath.postprocessors.MyCustomBeanPostProcessor"/>
 
+    <bean id="accountService" class="com.classpath.factory.AccountServiceImpl" factory-method="getInstance"/>
+
 </beans>
