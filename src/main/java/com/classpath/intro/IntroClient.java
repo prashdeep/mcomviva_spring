@@ -12,8 +12,8 @@ public class IntroClient {
         Greeter greeterOne = applicationContext.getBean("greeter", Greeter.class);
         //greeter.greet("Welcome to Bangalore");
         Greeter greeterTwo = applicationContext.getBean("greeter", Greeter.class);
-
-        System.out.println("Check, if greeterOne equals greeterTwo "+(greeterOne == greeterTwo));
+        greeterOne.greet("welcome");
+        //System.out.println("Check, if greeterOne equals greeterTwo "+(greeterOne == greeterTwo));
 
         //greeter.setLocation(new Location("chennai", "TN"));
 

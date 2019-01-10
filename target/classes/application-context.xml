@@ -2,20 +2,99 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:annotation-config> </context:annotation-config>
 
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
     <context:component-scan base-package="com.classpath.annotations"/>
+
+    <tx:annotation-driven />
+
 
     <import resource="dev-config.xml"/>
     <import resource="db-config.xml" />
     <import resource="autowire.xml" />
+    <import resource="dev-profile.xml" />
+    <import resource="qa-profile.xml" />
 
     <bean id="greeterNew" class="com.classpath.intro.NewGreeting" abstract="true"/>
 
+    <bean id="inMemoryEmployeeDAO"
+          class="com.classpath.dao.JdbcEmployeeDAOImpl">
+        <constructor-arg name="dataSource"
+                         ref="dbcpDataSource" />
+    </bean>
 
+    <jdbc:embedded-database id="dataSource"
+                            type="H2">
 
+        <jdbc:script location="classpath:create-db.sql" />
+        <!-- <jdbc:script location="classpath:db/sql/insert-data.sql" /> -->
+    </jdbc:embedded-database>
+
+    <bean id="dbcpDataSource"
+          class="org.apache.commons.dbcp2.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="url"
+                  value="jdbc:h2:mem:dataSource;DB_CLOSE_DELAY=-1" />
+        <property name="username" value="sa" />
+        <property name="password" value="" />
+    </bean>
+
+    <bean depends-on="dataSource"
+          class="org.springframework.beans.factory.config.MethodInvokingBean">
+        <property name="targetClass"
+                  value="org.hsqldb.util.DatabaseManagerSwing" />
+        <property name="targetMethod" value="main" />
+        <property name="arguments">
+            <list>
+                <value>--url</value>
+                <value>jdbc:h2:mem:dataSource</value>
+                <value>--user</value>
+                <value>sa</value>
+                <value>--password</value>
+                <value></value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dbcpDataSource" />
+        </property>
+
+        <property name="packagesToScan" value="com.classpath.model" />
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.show_sql">true</prop>
+
+            </props>
+        </property>
+    </bean>
+
+    <bean id="hibernateDAO" class="com.classpath.dao.HibernateDAOImpl">
+        <constructor-arg name="sessionFactory"
+                         ref="sessionFactory" />
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="employeeService"
+          class="com.classpath.service.EmployeeServiceImpl">
+        <constructor-arg name="employeeDAO" ref="hibernateDAO" />
+    </bean>
 
 </beans>
