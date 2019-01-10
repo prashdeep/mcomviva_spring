@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="greeter" class="com.classpath.intro.WelcomeGreeting"  init-method="init" destroy-method="destroy">
+        <constructor-arg name="greetStr" value="Welcome"/>
+        <constructor-arg name="age" value="34"/>
+        <property name="location" ref="location"/>
+    </bean>
+
+    <bean id="location" class="com.classpath.intro.Location">
+        <constructor-arg name="city" value="Bangalore"/>
+        <constructor-arg name="state" value="Karnataka" />
+    </bean>
+
+</beans>
