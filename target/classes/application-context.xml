@@ -11,7 +11,7 @@
 
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
-    <context:component-scan base-package="com.classpath.annotations"/>
+    <context:component-scan base-package="com.classpath"/>
 
     <tx:annotation-driven />
 
@@ -47,22 +47,22 @@
         <property name="password" value="" />
     </bean>
 
-    <bean depends-on="dataSource"
+    <!--<bean depends-on="dataSource"
           class="org.springframework.beans.factory.config.MethodInvokingBean">
         <property name="targetClass"
                   value="org.hsqldb.util.DatabaseManagerSwing" />
         <property name="targetMethod" value="main" />
         <property name="arguments">
             <list>
-                <value>--url</value>
+                <value>..url</value>
                 <value>jdbc:h2:mem:dataSource</value>
-                <value>--user</value>
+                <value>..user</value>
                 <value>sa</value>
-                <value>--password</value>
+                <value>..password</value>
                 <value></value>
             </list>
         </property>
-    </bean>
+    </bean> -->
 
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -94,7 +94,19 @@
 
     <bean id="employeeService"
           class="com.classpath.service.EmployeeServiceImpl">
-        <constructor-arg name="employeeDAO" ref="hibernateDAO" />
+        <constructor-arg name="employeeDAO" ref="inMemoryEmployeeDAO" />
     </bean>
+
+    <!-- Spring AOP XML Configuration-->
+    <!--<aop:config>
+        <aop:aspect ref="loggingAspect"
+                    id="loggingAspect" order="1">
+            <aop:pointcut expression="execution(* com.classpath.service.*.Employee*())"
+                          id="getNamePointcut" />
+            <aop:around method="employeeAroundAdvice" pointcut-ref="getNamePointcut"
+                        arg-names="proceedingJoinPoint" />
+        </aop:aspect>
+    </aop:config> -->
+
 
 </beans>

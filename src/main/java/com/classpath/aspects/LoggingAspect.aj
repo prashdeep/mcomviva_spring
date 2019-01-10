@@ -3,7 +3,6 @@ package com.classpath.aspects;
 import com.classpath.model.Employee;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-
 import java.util.List;
 
 @Aspect
@@ -16,7 +15,7 @@ public class LoggingAspect {
         System.out.println(joinPoint);
     }
 
-    @After("execution(* com.classpath.service.*.Employee*())")
+    @After("execution(* com.classpath.service.*.EmployeeServiceImpl*())")
     public void logAfter(JoinPoint joinPoint) {
         System.out.println("logging after the method has executed");
     }
@@ -35,5 +34,4 @@ public class LoggingAspect {
     @Pointcut("within(com.classpath.*)")
     public void allPublicMethodsPointcut() {
     }
-
 }

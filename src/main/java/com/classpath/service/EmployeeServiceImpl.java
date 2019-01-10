@@ -2,20 +2,15 @@ package com.classpath.service;
 
 import com.classpath.dao.EmployeeDAO;
 import com.classpath.model.Employee;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public class EmployeeServiceImpl implements EmployeeService{
 
-    @Autowired
-    @Qualifier("inMemoryEmployeeDAO")
     private EmployeeDAO employeeDAO;
 
-    public EmployeeServiceImpl(@Qualifier("inMemoryEmployeeDAO") EmployeeDAO employeeDAO) {
+    public EmployeeServiceImpl(EmployeeDAO employeeDAO) {
         this.employeeDAO = employeeDAO;
     }
 

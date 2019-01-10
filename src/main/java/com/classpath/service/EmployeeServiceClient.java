@@ -10,7 +10,7 @@ public class EmployeeServiceClient {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
 
-        EmployeeService employeeService = context.getBean("employeeService", EmployeeService.class);
+        EmployeeService employeeService = context.getBean("employeeService", EmployeeServiceImpl.class);
         Employee employee1 = new Employee(12, "Vinayak");
         Employee employee2 = new Employee(13, "Vinayak");
         Employee employee3 = new Employee(14, "Vinayak");
