@@ -20,6 +20,4 @@
     <bean id="vegas" class="com.classpath.inheritance.VegasOracleDB" parent="baseDBConfig">
         <property name="url" value="jdbc:oracle:thin@server:a:5602"/>
     </bean>
-
-
 </beans>
