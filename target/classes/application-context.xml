@@ -24,7 +24,9 @@
 
     <bean id="greeterNew" class="com.classpath.intro.NewGreeting" abstract="true"/>
 
-    <bean id="inMemoryEmployeeDAO"
+    <bean id="inMemoryDAO" class="com.classpath.dao.InMemoryEmployeeDAOImpl"/>
+
+    <bean id="jdbcEmployeeDAO"
           class="com.classpath.dao.JdbcEmployeeDAOImpl">
         <constructor-arg name="dataSource"
                          ref="dbcpDataSource" />
@@ -47,22 +49,22 @@
         <property name="password" value="" />
     </bean>
 
-    <!--<bean depends-on="dataSource"
+    <bean depends-on="dataSource"
           class="org.springframework.beans.factory.config.MethodInvokingBean">
         <property name="targetClass"
                   value="org.hsqldb.util.DatabaseManagerSwing" />
         <property name="targetMethod" value="main" />
         <property name="arguments">
             <list>
-                <value>..url</value>
+                <value>--url</value>
                 <value>jdbc:h2:mem:dataSource</value>
-                <value>..user</value>
+                <value>--user</value>
                 <value>sa</value>
-                <value>..password</value>
+                <value>--password</value>
                 <value></value>
             </list>
         </property>
-    </bean> -->
+    </bean>
 
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -75,9 +77,9 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
                 <prop key="hibernate.show_sql">true</prop>
-
+                <prop key="format_sql">true</prop>
             </props>
         </property>
     </bean>
@@ -94,7 +96,9 @@
 
     <bean id="employeeService"
           class="com.classpath.service.EmployeeServiceImpl">
-        <constructor-arg name="employeeDAO" ref="inMemoryEmployeeDAO" />
+        <!--<constructor-arg name="employeeDAO" ref="inMemoryDAO" />-->
+        <!--<constructor-arg name="employeeDAO" ref="jdbcEmployeeDAO" />-->
+        <constructor-arg name="employeeDAO" ref="hibernateDAO" />
     </bean>
 
    <bean id="greet" class="com.classpath.aspects.Target"></bean>

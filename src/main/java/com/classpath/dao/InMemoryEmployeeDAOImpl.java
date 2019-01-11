@@ -20,7 +20,8 @@ public class InMemoryEmployeeDAOImpl implements EmployeeDAO {
 
     public List<Employee> listAll() {
         List<Employee> empList = new ArrayList<>();
-        employeeMap.values().forEach(employee -> empList.add(employee) );
+
+        employeeMap.values().forEach(employee -> empList.add(employee));
         return empList;
     }
 

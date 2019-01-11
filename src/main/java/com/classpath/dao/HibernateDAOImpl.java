@@ -5,8 +5,10 @@ import java.util.List;
 import com.classpath.model.Employee;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+@Repository
 public class HibernateDAOImpl implements EmployeeDAO{
 
     private HibernateTemplate hibernateTemplate;
@@ -27,11 +29,13 @@ public class HibernateDAOImpl implements EmployeeDAO{
     }
 
     @Override
+    //TODO
     public Employee findById(long empId) {
         return null;
     }
 
     @Override
+    //TODO
     public void deleteEmployeeById(long empId) {
     }
 }

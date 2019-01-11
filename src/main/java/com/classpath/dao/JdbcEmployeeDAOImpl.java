@@ -27,6 +27,7 @@ public class JdbcEmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public void save(Employee employee) {
+        System.out.println("**** Inside the JdbcEmployeeDAOImple save metho ....****");
         this.jdbcTemplate.execute("insert into employee (id, name) values ("+employee.getId()+" , '"+employee.getName()+"');");
     }
 
@@ -35,6 +36,7 @@ public class JdbcEmployeeDAOImpl implements EmployeeDAO {
         String sql = "SELECT * FROM employee";
         List<Employee> empList = new ArrayList<Employee>();
         List<Map<String, Object>> rows = this.jdbcTemplate.queryForList(sql);
+
         for (Map<String, Object> row : rows) {
             Employee emp = new Employee((int)row.get("id"), (String)row.get("name"));
             empList.add(emp);
@@ -52,6 +54,7 @@ public class JdbcEmployeeDAOImpl implements EmployeeDAO {
     @Override
     public void deleteEmployeeById(long empId) {
         // TODO Auto-generated method stub
+        this.jdbcTemplate.execute("delete  from employee where id= '"+empId+"'");
 
     }
 }
