@@ -9,6 +9,8 @@ public  class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(name="emp_name" )
     private String name;
 
     public Employee(){}
