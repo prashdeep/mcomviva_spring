@@ -97,6 +97,8 @@
         <constructor-arg name="employeeDAO" ref="inMemoryEmployeeDAO" />
     </bean>
 
+   <bean id="greet" class="com.classpath.aspects.Target"></bean>
+
     <!-- Spring AOP XML Configuration-->
     <!--<aop:config>
         <aop:aspect ref="loggingAspect"
@@ -107,6 +109,17 @@
                         arg-names="proceedingJoinPoint" />
         </aop:aspect>
     </aop:config> -->
+
+    <bean id="authProxy" class="com.classpath.aspects.AuthAdvice"/>
+
+    <bean id="proxyGreet" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="greet" />
+        <property name="interceptorNames">
+            <list>
+                <value>authProxy</value>
+            </list>
+        </property>
+    </bean>
 
 
 </beans>
