@@ -21,8 +21,7 @@ public class EmployeeServiceClient {
         employeeService.insertEmployee(employee4);
 
         List<Employee> employeeList = employeeService.findAllEmployees();
-        System.out.println("****************************");
         System.out.println(employeeList);
-        System.out.println("****************************");
+
     }
 }
